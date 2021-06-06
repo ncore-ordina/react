@@ -1,6 +1,6 @@
 export * from "./Header/Header";
-export * from './Sidenav/Sidenav';
-export * from './NavItems/NavItems';
+export * from "./Sidenav/Sidenav";
+export * from "./NavItems/NavItems";
 export * from "./ActionButton/ActionButton";
 export * from "./ActionButtonMenu/ActionButtonMenu";
 export * from "./Page/Page";
@@ -9,3 +9,5 @@ export * from "./InputField/InputField";
 export * from "./TextAreaField/TextAreaField";
 export * from "./SubmitForm/SubmitForm";
 export * from "./FieldErrors/FieldErrors";
+export * from "./ReadOnly/ReadOnly";
+export * from "./Dialog/Dialog";

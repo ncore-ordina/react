@@ -18,15 +18,15 @@ interface Props {
 export function ProductForm({ product, onSubmit, onCancel }: Props) {
   const [fields, setFields] = useState<ProductFormFields>({
     name: {
-      value: !!product ? product.name : '',
+      value: !!product ? product.name : "",
       errors: [],
     },
     description: {
-      value: !!product ? product.description : '',
+      value: !!product ? product.description : "",
       errors: [],
     },
     productCode: {
-      value: !!product ? product.productCode : '',
+      value: !!product ? product.productCode : "",
       errors: [],
     },
   });

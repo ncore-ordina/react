@@ -3,26 +3,35 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@reach/dialog": "^0.10.5",
-    "@reach/menu-button": "^0.10.5",
+    "@reach/dialog": "^0.12.1",
+    "@reach/menu-button": "^0.12.1",
     "@reduxjs/toolkit": "^1.4.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^24.0.0",
-    "@types/node": "^12.0.0",
+    "@testing-library/jest-dom": "^5.11.8",
+    "@testing-library/react": "^11.2.3",
+    "@testing-library/user-event": "^12.6.0",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.20",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.10",
     "@types/react-router-dom": "^5.1.5",
-    "node-sass": "^4.14.1",
+    "axios": "^0.21.1",
+    "husky": "^4.3.6",
+    "lint-staged": "^10.5.3",
+    "node-sass": "^5.0.0",
+    "prettier": "^2.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^4.0.1",
     "react-spring": "^8.0.27",
-    "typescript": "~3.7.2"
+    "typescript": "^4.1.3"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
   },
   "scripts": {
     "start": "npm run watch:tailwind && react-scripts start",
@@ -48,8 +57,14 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^9.8.5",
-    "postcss-cli": "^7.1.1",
-    "tailwindcss": "^1.9.6"
+    "autoprefixer": "^10.2.1",
+    "postcss": "^8.2.3",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^2.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

@@ -15,7 +15,11 @@ export function SubmitForm({ isDisabled, onCancel }: Props) {
             disabled={isDisabled}
             type="submit"
             className={`bg-primary-500 text-white font-bold py-2 px-4 rounded
-          ${isDisabled ? " opacity-50 cursor-not-allowed" : "hover:bg-primary-700"}`}
+          ${
+            isDisabled
+              ? " opacity-50 cursor-not-allowed"
+              : "hover:bg-primary-700"
+          }`}
           >
             Save
           </button>

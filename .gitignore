@@ -23,7 +23,10 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
+.eslintcache
 package-lock.json
 yarn.lock
 /slides
 /slides_redux
+/slides_security
+src/assets/tailwind.generated.css

@@ -7,3 +7,8 @@ export interface Client {
   city: string;
   zip: string;
 }
+
+export interface ClientTableData {
+  id: string;
+  name: string;
+}
