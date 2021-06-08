@@ -1,12 +1,14 @@
+import { configureStore } from "@reduxjs/toolkit";
+import { AuthProvider } from "auth/contexts/AuthContext";
+import { FetchProvider } from "auth/contexts/FetchContext";
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import "./assets/tailwind.generated.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import { BrowserRouter } from "react-router-dom";
-import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import "./assets/tailwind.generated.css";
+import "./index.css";
+import * as serviceWorker from "./serviceWorker";
 import { appReducer, featureKey as appFeature } from "./state/reducer";
 
 const store = configureStore({
@@ -18,7 +20,11 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <AuthProvider>
+          <FetchProvider>
+            <App />
+          </FetchProvider>
+        </AuthProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>,

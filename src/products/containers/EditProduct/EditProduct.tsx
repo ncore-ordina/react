@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { match, useRouteMatch, useHistory } from "react-router-dom";
+import { FetchContext } from "auth/contexts/FetchContext";
 import { Product, ProductForm } from "products";
-import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { match, useHistory, useRouteMatch } from "react-router-dom";
 
 export function EditProduct() {
   const {
@@ -10,17 +10,13 @@ export function EditProduct() {
   const { push } = useHistory();
   const [product, setProduct] = useState<Product | undefined>(undefined);
   const goBackToProducts = () => push("/products");
+  const authAxios = useContext(FetchContext);
   const onEditProduct = async (productFields: Partial<Product>) => {
-    await axios.put(
-      `${process.env.REACT_APP_API_URL}/products/${productId}`,
-      productFields
-    );
+    await authAxios.put(`/products/${productId}`, productFields);
     goBackToProducts();
   };
   const retrieveProduct = async () => {
-    const result = (
-      await axios.get(`${process.env.REACT_APP_API_URL}/products/${productId}`)
-    ).data;
+    const result = (await authAxios.get(`/products/${productId}`)).data;
     setProduct(result);
   };
 

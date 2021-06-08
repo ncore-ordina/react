@@ -1,8 +1,10 @@
-import React from "react";
+import { AuthContext } from "auth/contexts/AuthContext";
+import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsReadOnly } from "../../state/selectors";
 import { toggleReadOnly } from "../../state/actions";
+import { selectIsReadOnly } from "../../state/selectors";
 import { Lock } from "../Icons/Lock";
+import { UserMenu } from "./UserMenu";
 
 interface Props {
   title: string;
@@ -12,6 +14,7 @@ interface Props {
 export function Header({ title, handleClickMenuButton }: Props) {
   const isReadOnly = useSelector(selectIsReadOnly);
   const dispatch = useDispatch();
+  const { authState, login, logout, isAuthenticated } = useContext(AuthContext);
 
   return (
     <nav className="flex items-center flex-wrap bg-primary-500 p-6">
@@ -29,11 +32,22 @@ export function Header({ title, handleClickMenuButton }: Props) {
         </svg>
       </button>
       <h1 className="pl-3">{title}</h1>
-      <Lock
-        isOpen={!isReadOnly}
-        onClick={() => dispatch(toggleReadOnly())}
-        className={"ml-auto"}
-      />
+      {isAuthenticated() && (
+        <>
+          <Lock
+            isOpen={!isReadOnly}
+            onClick={() => dispatch(toggleReadOnly())}
+            className={"ml-auto"}
+          />
+          <UserMenu
+            login={login}
+            logout={logout}
+            isAuthenticated={isAuthenticated}
+            userName={authState?.userInfo.preferred_username}
+            tokenExpiresAt={authState?.expiresAt}
+          />
+        </>
+      )}
     </nav>
   );
 }

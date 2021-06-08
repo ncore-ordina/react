@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import { AuthenticatedRoute } from "auth/components/AuthenticatedRoute/AuthenticatedRoute";
+import { Login } from "auth/components/Login/Login";
+import { AuthContext } from "auth/contexts/AuthContext";
+import { settings } from "auth/oidc-settings";
+import { UserManager } from "oidc-client";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import { ClientsPage } from "./clients";
 import {
@@ -11,19 +16,34 @@ import {
 import { ProductsPage } from "./products/pages";
 import { Routes } from "./routes";
 
-const navItems = [
-  {
-    name: "products",
-    route: Routes.PRODUCTS,
-  },
+const navItems: [] = [];
+
+const authenticatedNavItems = [
+  ...navItems,
   {
     name: "clients",
     route: Routes.CLIENTS,
+  },
+  {
+    name: "products",
+    route: Routes.PRODUCTS,
   },
 ];
 
 export function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const { isAuthenticated, isInitialized } = useContext(AuthContext);
+
+  const userManager = useRef<UserManager>();
+  useEffect(() => {
+    userManager.current = new UserManager(settings);
+    userManager.current.getUser().then((user) => {
+      if (user === null) {
+        userManager.current!.signinRedirect();
+      }
+    });
+  }, []);
+
   return (
     <div className="w-full h-full flex flex-col">
       <Header
@@ -33,17 +53,30 @@ export function App() {
       <div className="flex flex-1 flex-auto">
         <SidenavContainer>
           <Sidenav isSidenavOpen={isSidebarOpen}>
-            <NavItems navItems={navItems} />
+            <NavItems
+              navItems={isAuthenticated() ? authenticatedNavItems : navItems}
+            />
           </Sidenav>
           <SidenavContent>
-            <Switch>
-              <Route path={Routes.PRODUCTS}>
-                <ProductsPage />
-              </Route>
-              <Route path={Routes.CLIENTS}>
-                <ClientsPage />
-              </Route>
-            </Switch>
+            {isInitialized && (
+              <Switch>
+                <AuthenticatedRoute
+                  path={Routes.PRODUCTS}
+                  redirectRoute={Routes.LOGIN}
+                >
+                  <ProductsPage />
+                </AuthenticatedRoute>
+                <AuthenticatedRoute
+                  path={Routes.CLIENTS}
+                  redirectRoute={Routes.LOGIN}
+                >
+                  <ClientsPage />
+                </AuthenticatedRoute>
+                <Route path={Routes.LOGIN}>
+                  <Login />
+                </Route>
+              </Switch>
+            )}
           </SidenavContent>
         </SidenavContainer>
       </div>

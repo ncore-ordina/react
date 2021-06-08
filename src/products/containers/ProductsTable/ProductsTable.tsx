@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { FetchContext } from "auth/contexts/FetchContext";
 import {
-  match,
-  useRouteMatch,
-  useHistory,
-  useLocation,
-} from "react-router-dom";
-import { ProductRow, Product } from "products";
-import {
-  ActionButtonType,
   ActionButton,
   ActionButtonMenu,
+  ActionButtonType,
   Table,
 } from "components";
+import { Product, ProductRow } from "products";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import {
+  match,
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from "react-router-dom";
 import { selectIsReadOnly } from "../../../state/selectors";
-import axios from "axios";
 
 export function ProductsTable() {
   const [products, setProducts] = useState<Product[] | undefined>(undefined);
@@ -23,16 +23,15 @@ export function ProductsTable() {
   const history = useHistory();
   const isReadOnly = useSelector(selectIsReadOnly);
 
+  const authAxios = useContext(FetchContext);
   const retrieveProducts = async () => {
-    const result = (
-      await axios.get(`${process.env.REACT_APP_API_URL}/products`)
-    ).data;
+    const result = (await authAxios.get(`/products`)).data;
     setProducts(result);
   };
 
   const onDeleteProduct = async (id: string) => {
     if (window.confirm("Are you sure?")) {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/products/${id}`);
+      await authAxios.delete(`/products/${id}`);
       retrieveProducts();
     }
   };

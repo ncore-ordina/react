@@ -1,13 +1,14 @@
-import React from "react";
+import { FetchContext } from "auth/contexts/FetchContext";
+import { Product, ProductForm } from "products";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { ProductForm, Product } from "products";
-import axios from "axios";
 
 export function CreateProduct() {
   const { push } = useHistory();
   const goBackToProducts = () => push("/products");
+  const authAxios = useContext(FetchContext);
   const onCreateProduct = async (newProduct: Partial<Product>) => {
-    await axios.post(`${process.env.REACT_APP_API_URL}/products`, newProduct);
+    await authAxios.post(`/products`, newProduct);
     goBackToProducts();
   };
 

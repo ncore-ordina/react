@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { match, useRouteMatch, useHistory } from "react-router-dom";
+import { FetchContext } from "auth/contexts/FetchContext";
+import axios from "axios";
+import { Client, ClientRow, ClientTableData } from "clients";
 import {
-  ActionButtonType,
   ActionButton,
   ActionButtonMenu,
+  ActionButtonType,
   Table,
 } from "components";
-import { ClientRow, Client, ClientTableData } from "clients";
+import React, { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { match, useHistory, useRouteMatch } from "react-router-dom";
 import { selectIsReadOnly } from "../../../state/selectors";
-import axios from "axios";
 
 export function ClientsTable() {
   const [clients, setClients] = useState<Client[] | undefined>(undefined);
   const { url }: match = useRouteMatch();
   const { push } = useHistory();
   const isReadOnly = useSelector(selectIsReadOnly);
+  const authAxios = useContext(FetchContext);
   const retrieveClients = async () => {
-    const result = (await axios.get(`${process.env.REACT_APP_API_URL}/clients`))
-      .data;
+    console.log(authAxios.defaults);
+    const result = (await authAxios.get(`/clients`)).data;
     setClients(result);
   };
 
