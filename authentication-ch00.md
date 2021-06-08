@@ -37,7 +37,7 @@ The `post_logout_redirect_uri` is where you'd like to be redirected to after a l
 const clientRoot = "http://localhost:3000/";
 
 export const settings = {
-  authority: "https://keycloak.ordina-jworks.io/auth/realms/react-base-app",
+  authority: "https://react-accelerator-keycloak.azurewebsites.net/auth/realms/react-base-app",
   client_id: "reactjs-base-app",
   response_type: "code",
   redirect_uri: `${clientRoot}signin-callback.html`,
