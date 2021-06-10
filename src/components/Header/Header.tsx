@@ -32,22 +32,22 @@ export function Header({ title, handleClickMenuButton }: Props) {
         </svg>
       </button>
       <h1 className="pl-3">{title}</h1>
-      {isAuthenticated() && (
-        <>
+      <div className="ml-auto">
+        {isAuthenticated() && (
           <Lock
             isOpen={!isReadOnly}
             onClick={() => dispatch(toggleReadOnly())}
             className={"ml-auto"}
           />
-          <UserMenu
-            login={login}
-            logout={logout}
-            isAuthenticated={isAuthenticated}
-            userName={authState?.userInfo.preferred_username}
-            tokenExpiresAt={authState?.expiresAt}
-          />
-        </>
-      )}
+        )}
+        <UserMenu
+          login={login}
+          logout={logout}
+          isAuthenticated={isAuthenticated}
+          userName={authState?.userInfo.preferred_username}
+          tokenExpiresAt={authState?.expiresAt}
+        />
+      </div>
     </nav>
   );
 }
